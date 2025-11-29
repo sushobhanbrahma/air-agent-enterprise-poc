@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "air-agent-enterprise-poc"
+version = "0.1.0"
+description = "Enterprise-grade agentic AI PoC with multiple use cases (UC0+)."
+readme = "README.md"
+requires-python = ">=3.12"
+
+# Runtime dependencies (UC0)
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "openai",
+  "pyyaml",
+  "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+]
+
+# Tell Hatchling which Python packages to include in the wheel.
+# Your code is in src/air_agent, so we include that path.
+[tool.hatch.build.targets.wheel]
+packages = ["src/air_agent"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src",
+  "usecases",
+  "config",
+  "docs",
+  "architecture",
+  "uc",
+  "README.md",
+  "pyproject.toml",
+]
+
+[tool.uv]
+# uv-specific configuration can be added later if needed.
