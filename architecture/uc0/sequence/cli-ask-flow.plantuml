@@ -1,0 +1,19 @@
+@startuml
+title UC0 - Hello Agent - CLI Ask Flow
+
+actor User
+participant "UC0 CLI" as CLI
+participant "Workflow (UC0)" as WF
+participant "LLM Wrapper (UC0)" as LLM
+participant "OpenAI API" as OpenAI
+
+User -> CLI : enter message
+CLI -> WF : add_user_and_respond(history, user_input)
+WF -> LLM : chat_completion_uc0(messages)
+LLM -> OpenAI : chat.completions(...)
+OpenAI --> LLM : response
+LLM --> WF : reply text
+WF --> CLI : updated history
+CLI --> User : display reply
+
+@enduml

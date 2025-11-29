@@ -1,0 +1,19 @@
+@startuml
+title UC0 - Hello Agent - API Ask Flow
+
+actor User
+participant "UC0 API (FastAPI)" as API
+participant "Workflow (UC0)" as WF
+participant "LLM Wrapper (UC0)" as LLM
+participant "OpenAI API" as OpenAI
+
+User -> API : HTTP POST /uc0/chat\n(history, user_input)
+API -> WF : add_user_and_respond(history, user_input)
+WF -> LLM : chat_completion_uc0(messages)
+LLM -> OpenAI : chat.completions(...)
+OpenAI --> LLM : response
+LLM --> WF : reply text
+WF --> API : updated history (JSON)
+API --> User : HTTP 200 (history with assistant reply)
+
+@enduml
